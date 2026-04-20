@@ -1,0 +1,304 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Material;
+
+concept MaterialEnvironment is a Material;
+struct MaterialEnvironmentProperties {
+    string name = "MaterialEnvironment";
+    optional<key<Thumbnail>> thumbnailKey;
+    float intensity = 1.0;
+};
+
+concept MaterialMatte is a Material;
+struct MaterialMatteProperties {
+    string name = "MaterialMatte";
+    optional<key<Thumbnail>> thumbnailKey;
+    float threshold;
+    float offset;
+    float outline;
+    float contrast = 1.0;
+};
+
+concept MaterialMirror is a Material;
+struct MaterialMirrorProperties {
+    string name = "MaterialMirror";
+    optional<key<Thumbnail>> thumbnailKey;
+    Vector reflectionColor;
+    bool isTransparent;
+    Vector transparencyColor = {1.0, 1.0, 1.0};
+    Vector interReflectionColor;
+    MaterialMirrorOutboundSceneColor outboundSceneColor;
+    bool reflectedSurfaceTagEnabled;
+    string reflectedSurfaceTag;
+};
+
+enum MaterialMirrorOutboundSceneColor {
+    black,
+    background,
+    environment
+};
+
+concept MaterialMultilayerLayer;
+
+enum MaterialLabelMode {
+    mix,
+    mul,
+    add
+};
+
+concept MaterialMultilayer is a Material;
+struct MaterialMultilayerProperties {
+    string name = "Material";
+    optional<key<Thumbnail>> thumbnailKey;
+    bool mipmapEnabled;
+    bool layersUseRelief;
+    bool isTransparent;
+    vector<key<MaterialMultilayerLayer>> layerKeys;
+    MaterialMultilayerRelief relief;
+    TextureRepeatMode labelRepeatU;
+    TextureRepeatMode labelRepeatV;
+    MaterialLabelMode labelMode;
+    float labelFactor = 1.0;
+    bool overrideRepeatForLabel = true;
+};
+
+struct MaterialMultilayerBump {
+    bool enabled;
+    float scale = 1.0;
+    optional<key<BumpMap>> mapKey;
+    Transform transform;
+    TextureRepeatMode mapRepeatU = .repeat;
+    TextureRepeatMode mapRepeatV = .repeat;
+};
+
+struct MaterialMultilayerRelief {
+    bool enabled;
+    float scale = 1.0;
+    optional<key<BumpMap>> mapKey;
+    optional<key<Texture>> maximumMipmapHeightMapKey;
+    optional<key<Texture>> mipmapedHeightMapKey;
+    Transform reliefMapTransform;
+    TextureRepeatMode mapRepeatU = .repeat;
+    TextureRepeatMode mapRepeatV = .repeat;
+};
+
+concept MaterialMultilayerLayerIllumination is a MaterialMultilayerLayer;
+struct MaterialMultilayerLayerIlluminationProperties {
+    string name = "MaterialMultilayerLayerIllumination";
+    bool enabled = true;
+    float intensity;
+    Vector color;
+    float inShadow;
+    float velvetFactor;
+    optional<key<Texture>> velvetMapKey;
+    bool velvetMapEnabled;
+    bool velvetMapModulateEnabled;
+    optional<key<Texture>> modulateMapKey;
+    bool modulateMapEnabled;
+    TextureRepeatMode modulateMapRepeatU = .repeat;
+    TextureRepeatMode modulateMapRepeatV = .repeat;
+    Transform modulateMapTransform;
+    bool allowTextureRepeat;
+    MaterialMultilayerBump bump;
+    bool useRelief;
+};
+
+concept MaterialMultilayerLayerDiffuse is a MaterialMultilayerLayer;
+struct MaterialMultilayerLayerDiffuseProperties {
+    string name = "MaterialMultilayerLayerDiffuse";
+    bool enabled = true;
+    float intensity = 1.0;
+    Vector color;
+    Vector ambientColor;
+    optional<key<Texture>> colorMapKey;
+    bool colorMapEnabled = false;
+    TextureRepeatMode colorMapRepeatU = .repeat;
+    TextureRepeatMode colorMapRepeatV = .repeat;
+    Transform colorMapTransform;
+    float alphaModulator = 1.0;
+    optional<key<Texture>> alphaMapKey;
+    TextureRepeatMode alphaMapRepeatU = .repeat;
+    TextureRepeatMode alphaMapRepeatV = .repeat;
+    Transform alphaMapTransform;
+    optional<key<Texture>> filterMapKey;
+    bool filterMapEnabled;
+    MaterialMultilayerBump bump;
+    bool useRelief;
+};
+
+concept MaterialMultilayerLayerSpecular is a MaterialMultilayerLayer;
+struct MaterialMultilayerLayerSpecularProperties {
+    string name = "MaterialMultilayerLayerSpecular";
+    bool enabled = true;
+    float roughness;
+    float intensity = 1.0;
+    float inShadow;
+    bool fresnelEnabled = false;
+    float fresnelRefraction;
+    float fresnelExtinction;
+    bool transmissionAttenuationEnabled;
+    optional<key<Texture>> modulateMapKey;
+    bool modulateMapEnabled;
+    TextureRepeatMode modulateMapRepeatU = .repeat;
+    TextureRepeatMode modulateMapRepeatV = .repeat;
+    Transform modulateMapTransform;
+    optional<key<Texture>> roughnessMapKey;
+    bool roughnessMapEnabled;
+    TextureRepeatMode roughnessMapRepeatU = .repeat;
+    TextureRepeatMode roughnessMapRepeatV = .repeat;
+    Transform roughnessMapTransform;
+    Vector filter;
+    Vector diffuseFilter;
+    optional<key<Texture>> filterMapKey;
+    bool filterMapEnabled;
+    MaterialMultilayerBump bump;
+    bool useRelief;
+};
+
+concept MaterialSeam is a Material;
+struct MaterialSeamProperties {
+    string name = "MaterialSeam";
+    optional<key<Thumbnail>> thumbnailKey;
+    Vector diffuseColor;
+    Vector ambientColor;
+    float diffuseIntensity = 1.0;
+    optional<key<Texture>> diffuseMapKey;
+    bool diffuseMapEnabled;
+    optional<key<Texture>> seamMapKey;
+    bool seamMapEnabled;
+    optional<key<BumpMap>> seamBumpMapKey;
+    float specularRoughness;
+    float specularIntensity;
+    Vector specularFilter;
+    Vector specularDiffuseFilter;
+    optional<key<BumpMap>> pleatMapKey;
+    bool pleatMapEnabled;
+    float pleatMapBumpScale;
+    bool keepAspectRatio;
+    bool mipmapEnabled;
+    Transform transformation;
+    bool bumpDiffuseEnabled;
+    float bumpDiffuseScale;
+    bool bumpSpecularEnabled;
+    float bumpSpecularScale;
+};
+
+concept MaterialStandard is a Material;
+
+enum MaterialStandardType {
+    diffuse,
+    diffuseSpecular,
+    transparent
+};
+
+struct MaterialStandardProperties {
+    string name = "MaterialStandard";
+    optional<key<Thumbnail>> thumbnailKey;
+    MaterialStandardType materialType = .diffuseSpecular;
+    Vector diffuseColor;
+    Vector ambientColor;
+    Vector illuminationColor;
+    float diffuseIntensity;
+    float illuminationIntensity;
+    optional<key<Texture>> diffuseMapKey;
+    bool diffuseMapEnabled;
+    TextureRepeatMode diffuseMapRepeatU = .repeat;
+    TextureRepeatMode diffuseMapRepeatV = .repeat;
+    Transform diffuseMapTransform;
+    float alphaModulator;
+    optional<key<Texture>> alphaMapKey;
+    Transform alphaMapTransform;
+    TextureRepeatMode alphaMapRepeatU = .repeat;
+    TextureRepeatMode alphaMapRepeatV = .repeat;
+    optional<key<Texture>> diffuseFilterMapKey;
+    bool diffuseFilterMapEnabled;
+    optional<key<BumpMap>> bumpMapKey;
+    Transform bumpMapTransform;
+    TextureRepeatMode bumpMapRepeatU = .repeat;
+    TextureRepeatMode bumpMapRepeatV = .repeat;
+    bool bumpDiffuseEnabled;
+    float bumpDiffuseScale;
+    bool bumpSpecularEnabled;
+    float bumpSpecularScale;
+    optional<key<Texture>> maximumMipmapHeightMapKey;
+    optional<key<Texture>> mipmapedHeightMapKey;
+    bool reliefBumpEnabled;
+    float reliefBumpScale;
+    float specularRoughness;
+    float specularIntensity;
+    float specularInShadow;
+    bool fresnelEnabled;
+    float fresnelRefraction;
+    float fresnelExtinction;
+    bool diffuseAttenuationEnabled;
+    bool velvetEnabled;
+    float velvetFactor;
+    optional<key<Texture>> velvetMapKey;
+    bool velvetMapEnabled;
+    bool velvetMapModulateEnabled;
+    optional<key<Texture>> specularModulateMapKey;
+    bool specularModulateMapEnabled;
+    TextureRepeatMode specularModulateMapRepeatU = .repeat;
+    TextureRepeatMode specularModulateMapRepeatV = .repeat;
+    Transform specularModulateMapTransform;
+    optional<key<Texture>> roughnessMapKey;
+    bool roughnessMapEnabled;
+    TextureRepeatMode roughnessMapRepeatU = .repeat;
+    TextureRepeatMode roughnessMapRepeatV = .repeat;
+    Transform roughnessMapTransform;
+    bool roughnessMapIsGloss;
+    Vector specularFilter;
+    Vector specularDiffuseFilter;
+    bool transformationLink;
+    bool mipmapEnabled;
+    TextureRepeatMode labelRepeatU;
+    TextureRepeatMode labelRepeatV;
+    MaterialLabelMode labelMode;
+    float labelFactor = 1.0;
+};
+
+concept MaterialAxfCpa2 is a Material;
+struct  MaterialAxfCpa2Properties {
+    string name = "MaterialAxfCpa2";
+    optional<key<Thumbnail>> thumbnailKey;
+    float diffuse = 1.0;
+    vector<float> coeffs;
+    vector<float> f0s;
+    vector<float> spreads;
+    float ior = 1.0;
+    bool refraction = true;
+    optional<key<BumpMap>> clearCoatBumpMapKey;
+    int32 numThetaF;
+    int32 numThetaI;
+    int32 maxThetaI;
+    vector<int32> sliceLUT;
+    Transform clearCoatTransform;
+    Transform flakesTransform;
+    optional<key<Texture>> colorsKey;
+    optional<key<TextureArray>> flakesKey;
+    float hueShift;
+    float saturation = 1.0;
+    float contrast = 1.0;
+    float exposure = 1.0;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<MaterialEnvironment, MaterialEnvironmentProperties> properties;
+attachment<MaterialMatte, MaterialMatteProperties> properties;
+attachment<MaterialMirror, MaterialMirrorProperties> properties;
+attachment<MaterialMultilayer, MaterialMultilayerProperties> properties;
+attachment<MaterialMultilayerLayerIllumination,  MaterialMultilayerLayerIlluminationProperties> properties;
+attachment<MaterialMultilayerLayerDiffuse, MaterialMultilayerLayerDiffuseProperties> properties;
+attachment<MaterialMultilayerLayerSpecular, MaterialMultilayerLayerSpecularProperties> properties;
+attachment<MaterialSeam, MaterialSeamProperties> properties;
+attachment<MaterialStandard, MaterialStandardProperties> properties;
+attachment<MaterialAxfCpa2, MaterialAxfCpa2Properties> properties;
+
+};
+
+

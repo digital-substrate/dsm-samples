@@ -1,0 +1,58 @@
+"""This pool provides access to functions used to edit the selection."""
+attachment_function_pool ModelSelection {5318ad8d-79d8-498e-b080-eccf15e4a74d} {
+
+"""Combine the edge-selected state with the edge selection."""
+mutable void combineSelectionWithEdge(key<Graph> graphKey, key<Edge> edgeKey, bool selected);
+
+"""Combine the vertex-selected state with the vertex selection."""
+mutable void combineSelectionWithVertex(key<Graph> graphKey, key<Vertex> vertexKey, bool selected);
+
+"""Delete the selected elements."""
+mutable void deleteSelection(key<Graph> graphKey);
+
+"""Deselect all edges and vertices."""
+mutable void deselectAll(key<Graph> graphKey);
+
+"""Deselection all edges."""
+mutable void deselectAllEdges(key<Graph> graphKey);
+
+"""Deselect all vertices."""
+mutable void deselectAllVertices(key<Graph> graphKey);
+
+"""Increment the value of selected vertices."""
+mutable void incrementVertexValue(key<Graph> graphKey, int64 value);
+
+"""Invert the edge selection."""
+mutable void invertEdgesSelection(key<Graph> graphKey);
+
+"""Invert the selection for edges and vertices."""
+mutable void invertSelection(key<Graph> graphKey);
+
+"""Invert the vertex selection."""
+mutable void invertVerticesSelection(key<Graph> graphKey);
+
+"""Select all edges and vertices."""
+mutable void selectAll(key<Graph> graphKey);
+
+"""Select all edges."""
+mutable void selectAllEdges(key<Graph> graphKey);
+
+"""Select all vertices."""
+mutable void selectAllVertices(key<Graph> graphKey);
+
+"""Return selected edges."""
+set<key<Edge>> selectedEdges(key<Graph> graphKey);
+
+"""Return selected vertices."""
+set<key<Vertex>> selectedVertices(key<Graph> graphKey);
+
+"""Reduce the selection to the specified edges and vertices."""
+mutable void setSelection(key<Graph> graphKey, set<key<Vertex>> vertexKeys, set<key<Edge>> edgeKeys);
+
+"""Reduce the edge selection to the edge."""
+mutable void setSelectionToEdge(key<Graph> graphKey, key<Edge> edgeKey);
+
+"""Reduce the selection to the vertex."""
+mutable void setSelectionToVertex(key<Graph> graphKey, key<Vertex> vertexKey);
+
+};

@@ -1,0 +1,68 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+struct Mipmap {
+    int32 width;
+    int32 height;
+    blob_id blob_image;
+};
+
+concept BumpMap;
+struct BumpMapProperties {
+    string name = "BumpMap";
+    optional<key<Thumbnail>> thumbnailKey;
+    vector<Mipmap> mipmaps;
+};
+
+concept Texture;
+struct TextureProperties {
+    string name = "Texture";
+    optional<key<Thumbnail>> thumbnailKey;
+    vector<Mipmap> mipmaps;
+    optional<key<Video>> videoKey;
+};
+
+concept TextureCube;
+struct TextureCubeProperties {
+    string name = "TextureCube";
+    vector<Mipmap> xPosMipmaps;
+    vector<Mipmap> xNegMipmaps;
+    vector<Mipmap> yPosMipmaps;
+    vector<Mipmap> yNegMipmaps;
+    vector<Mipmap> zPosMipmaps;
+    vector<Mipmap> zNegMipmaps;
+};
+
+concept TextureArray;
+struct  TextureArrayProperties {
+    string name = "TextureArray";
+    optional<key<Thumbnail>> thumbnailKey;
+    vector<vector<Mipmap>> textures;
+};
+
+enum TextureRepeatMode {
+    clamp,
+    repeat,
+    mirroredRepeat
+};
+
+concept Video;
+struct  VideoProperties {
+    string name = "Video";
+    optional<key<Thumbnail>> thumbnailKey;
+    float duration;
+    blob_id blob_video;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<BumpMap, BumpMapProperties> properties;
+attachment<Texture, TextureProperties> properties;
+attachment<TextureCube, TextureCubeProperties> properties;
+attachment<TextureArray, TextureArrayProperties> properties;
+attachment<Video, VideoProperties> properties;
+
+};

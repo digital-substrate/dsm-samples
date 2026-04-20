@@ -1,0 +1,16 @@
+"""This pool provides access functions used to restore the integrity of the graph."""
+attachment_function_pool ModelIntegrity {95e0f859-65e0-419e-8b81-77547c73b759} {
+
+"""Restore the graph integrity by creating missing elements."""
+mutable void restoreIntegrityByCreating(key<Graph> graphKey);
+
+"""Restore the graph integrity by removing elements."""
+mutable void restoreIntegrityByDeleting(key<Graph> graphKey);
+
+"""Restore the graph integrity by respawning elements."""
+mutable void restoreIntegrityByRestoring(key<Graph> graphKey);
+
+"""Restore attributes of the selected vertices."""
+mutable void restoreVertexSelection(key<Graph> graphKey);
+
+};

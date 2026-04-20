@@ -1,0 +1,208 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Sensor;
+
+enum SensorBackgroundType {
+    none,
+    gradient,
+    environment
+};
+
+struct SensorProperties {
+    string name = "Sensor";
+    optional<key<Thumbnail>> thumbnailKey;
+    bool isometric;
+    bool dynamicAspectRatio;
+    float width = 0.024;
+    float height = 0.036;
+    optional<key<Background>> backgroundKey;
+    SensorBackgroundType backgroundType;
+    optional<key<Overlay>> overlayKey;
+    bool overlayVisibility;
+    optional<key<PostProcess>> postprocessKey;
+    bool postprocessVisibility;
+};
+
+concept Background;
+struct BackgroundProperties {
+    string name = "Background";
+    optional<key<Thumbnail>> thumbnailKey;
+    Vector gradientStart = {0.455, 0.455, 0.455};
+    Vector gradientEnd = {0.455, 0.455, 0.455};
+    bool gradientActivated = true;
+    float gradientOrientationAngle;
+    bool preserveTextureAspect = true;
+    optional<key<Texture>> textureKey;
+    bool textureEnabled;
+    Transform textureTransform;
+};
+
+concept Overlay;
+struct OverlayProperties {
+    string name = "Overlay";
+    optional<key<Thumbnail>> thumbnailKey;
+    float alpha = 1.0;
+    vector<key<OverlayLayer>> layerKeys;
+};
+
+concept OverlayLayer;
+struct OverlayLayerProperties {
+    string name = "OverlayLayer";
+    bool enabled;
+    OverlayLayerType layerType = .sprite;
+    OverlayLayerSizeType layerSize;
+    float width = 0.25;
+    float height = 0.25;
+    OverlayLayerLengthUnit widthUnit;
+    OverlayLayerLengthUnit heightUnit;
+    bool constrainedRotation = true;
+    OverlayLayerVerticalAlignment verticalAlignment = .bottom;
+    OverlayLayerHorizontalAlignment horizontalAlignment;
+    Transform transform;
+    OverlayLayerLengthUnit offsetUUnit;
+    OverlayLayerLengthUnit offsetVUnit;
+    Vector gradientColorStart = {1.0, 1.0, 1.0};
+    Vector gradientColorEnd = {1.0, 1.0, 1.0};
+    float gradientAlphaStart = 1.0;
+    float gradientAlphaEnd = 1.0;
+    bool gradientFlipVertically;
+    bool gradientFlipHorizontally;
+    optional<key<Texture>> textureKey;
+    bool textureEnabled;
+    Transform textureTransform;
+};
+
+enum OverlayLayerHorizontalAlignment {
+    left,
+    middle,
+    right
+};
+
+enum OverlayLayerLengthUnit {
+    pixel,
+    millimeters,
+    centimeters,
+    inches,
+    relativeToX,
+    relativeToY
+};
+
+enum OverlayLayerSizeType {
+    texture,
+    screen,
+    userDefined
+};
+
+enum OverlayLayerType {
+    sticker,
+    sprite
+};
+
+enum OverlayLayerVerticalAlignment {
+    top,
+    middle,
+    bottom
+};
+
+concept PostProcess;
+struct PostProcessProperties {
+    string name = "PostProcess";
+    optional<key<Thumbnail>> thumbnailKey;
+    bool applyToBackground = true;
+    bool applyToOverlay = true;
+    optional<uint32> soloEffectIndex;
+    vector<PostProcessEffect> effects;
+};
+
+enum PostProcessDataType {
+    bool,
+    int,
+    float,
+    color,
+    length,
+    texture,
+    levels,
+    cameraResponseEnum
+};
+
+struct PostProcessEffect {
+    string name = "PostProcessEffect";
+    PostProcessEffectType effectType;
+    bool enabled;
+    vector<PostProcessEffectParameter> parameters;
+};
+
+struct PostProcessEffectParameter {
+    string name = "PostProcessEffectParameter";
+    int32 parameterLength = 1;
+    PostProcessLengthUnit lengthUnit = .none;
+    PostProcessDataType dataType = .float;
+    string parameterValue = "0/";
+};
+
+enum PostProcessEffectType {
+    negative,
+    blackAndWhite,
+    sepia,
+    grayscale,
+    colorFilter,
+    blurHorizontal,
+    blurVertical,
+    grainGeneratorPerlin,
+    grainGeneratorMd4,
+    edgeDetector,
+    combine,
+    erodeHorizontal,
+    erodeVertical,
+    erode,
+    dilateHorizontal,
+    dilateVertical,
+    dilate,
+    adjustColor,
+    automaticToneMapping,
+    blur,
+    grain,
+    handDrawing,
+    store,
+    restore,
+    get3DImage,
+    glowThresholder,
+    glowCombiner,
+    glow,
+    sharpenCombiner,
+    sharpen,
+    multiplyAdd,
+    bloom,
+    levels,
+    bloomCombiner,
+    reinhardToneMapping,
+    dragoToneMapping,
+    bloomThresholder,
+    vignetting,
+    cameraResponse
+};
+
+enum PostProcessLengthUnit {
+    pixel,
+    millimeter,
+    none,
+    relativeToX,
+    relativeToY,
+    relativeToDefault
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Sensor, SensorProperties> properties;
+attachment<Background, BackgroundProperties> properties;
+attachment<Overlay, OverlayProperties> properties;
+attachment<OverlayLayer, OverlayLayerProperties> properties;
+attachment<PostProcess, PostProcessProperties> properties;
+
+};
+
+

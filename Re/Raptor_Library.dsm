@@ -1,0 +1,82 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Library;
+struct LibraryProperties {
+    key<CameraGroup> rootCameraGroupKey;
+    key<MaterialGroup> rootMaterialGroupKey;
+    key<Folder> rootTextureGroupKey;
+    key<BackgroundGroup> rootBackgroundGroupKey;
+    key<OverlayGroup> rootOverlayGroupKey;
+    key<PostProcessGroup> rootPostprocessGroupKey;
+    key<SensorGroup> rootSensorGroupKey;
+    vector<key<ConfigurationRule>> configurationRuleKeys;
+    map<key<Product>, vector<key<Camera>>> productCameras;
+};
+
+concept CameraGroup;
+struct CameraGroupProperties {
+    string name = "Camera Group";
+    vector<key<CameraGroup>> groupKeys;
+    vector<key<Camera>> cameraKeys;
+};
+
+concept MaterialGroup;
+struct MaterialGroupProperties {
+    string name = "Material Group";
+    vector<key<MaterialGroup>> groupKeys;
+    vector<key<Material>> materialKeys;
+};
+
+concept BackgroundGroup;
+struct BackgroundGroupProperties {
+    string name = "Background Group";
+    vector<key<BackgroundGroup>> groupKeys;
+    vector<key<Background>> backgroundKeys;
+};
+
+concept OverlayGroup;
+struct OverlayGroupProperties {
+    string name = "Overlay Group";
+    vector<key<OverlayGroup>> groupKeys;
+    vector<key<Overlay>> overlayKeys;
+};
+
+concept PostProcessGroup;
+struct PostProcessGroupProperties {
+    string name = "PostProcess Group";
+    vector<key<PostProcessGroup>> groupKeys;
+    vector<key<PostProcess>> postProcessKeys;
+};
+
+concept SensorGroup;
+struct SensorGroupProperties {
+    string name = "Sensor Group";
+    vector<key<SensorGroup>> groupKeys;
+    vector<key<Sensor>> sensorKeys;
+};
+
+concept Folder;
+struct FolderProperties {
+    string name = "Folder";
+    vector<key<Folder>> folderKeys;
+    vector<uuid> entries;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Library, LibraryProperties> properties;
+
+attachment<CameraGroup, CameraGroupProperties> properties;
+attachment<MaterialGroup, MaterialGroupProperties> properties;
+attachment<BackgroundGroup, BackgroundGroupProperties> properties;
+attachment<OverlayGroup, OverlayGroupProperties> properties;
+attachment<PostProcessGroup, PostProcessGroupProperties> properties;
+attachment<SensorGroup, SensorGroupProperties> properties;
+
+attachment<Folder, FolderProperties> properties;
+
+};

@@ -1,0 +1,90 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+club KinematicsElement;
+membership KinematicsElement Surface;
+membership KinematicsElement BezierPath;
+membership KinematicsElement KinematicsNodeAxis;
+membership KinematicsElement KinematicsNodeNull;
+membership KinematicsElement KinematicsNodeVector;
+
+concept Kinematics;
+struct KinematicsProperties {
+    vector<key<KinematicsNode>> nodeKeys;
+    map<key<KinematicsElement>, vector<key<KinematicsConstraint>>> constraints;
+    map<key<KinematicsElement>, key<KinematicsElement>> parents;
+};
+
+concept KinematicsNode;
+
+concept KinematicsNodeAxis is a KinematicsNode;
+struct KinematicsNodeAxisProperties {
+    string name = "KinematicsNodeAxis";
+    float minAngle;
+    float maxAngle;
+};
+
+concept KinematicsNodeNull is a KinematicsNode;
+struct KinematicsNodeNullProperties {
+    string name = "KinematicsNodeNull";
+    vector<string> tags;
+};
+
+concept KinematicsNodeVector is a KinematicsNode;
+struct KinematicsNodeVectorProperties {
+    string name = "KinematicsNodeVector";
+    float minDistance;
+    float maxDistance;
+};
+
+concept KinematicsConstraint;
+
+enum KinematicsConstraintAxis {
+    x,
+    y,
+    z
+};
+
+concept KinematicsConstraintCopyOrientation is a KinematicsConstraint;
+struct KinematicsConstraintCopyOrientationProperties {
+    key<KinematicsElement> targetKey;
+    Vector offset;
+};
+
+concept KinematicsConstraintCopyPosition is a KinematicsConstraint;
+struct KinematicsConstraintCopyPositionProperties {
+    key<KinematicsElement> targetKey; // [ShaperObject] ?
+    Vector offset;
+};
+
+concept KinematicsConstraintFollowPath is a KinematicsConstraint;
+struct KinematicsConstraintFollowPathProperties {
+    key<KinematicsElement> targetKey;
+    bool followCurve;
+    KinematicsConstraintAxis followAimAxis;
+    KinematicsConstraintAxis followUpAxis = .y;
+    float curvilinearAbscissa = 0.0;
+};
+
+concept KinematicsConstraintLookAt is a KinematicsConstraint;
+struct KinematicsConstraintLookAtProperties {
+    key<KinematicsElement> targetKey;
+    KinematicsConstraintAxis aimAxis;
+    KinematicsConstraintAxis upAxis = .y;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Kinematics, KinematicsProperties> properties;
+attachment<KinematicsNodeAxis, KinematicsNodeAxisProperties> properties;
+attachment<KinematicsNodeNull, KinematicsNodeNullProperties> properties;
+attachment<KinematicsNodeVector, KinematicsNodeVectorProperties> properties;
+attachment<KinematicsConstraintCopyOrientation, KinematicsConstraintCopyOrientationProperties> properties;
+attachment<KinematicsConstraintCopyPosition, KinematicsConstraintCopyPositionProperties> properties;
+attachment<KinematicsConstraintFollowPath, KinematicsConstraintFollowPathProperties> properties;
+attachment<KinematicsConstraintLookAt, KinematicsConstraintLookAtProperties> properties;
+
+};

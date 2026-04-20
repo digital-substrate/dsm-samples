@@ -1,0 +1,51 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept ClippingPlaneGroup;
+struct ClippingPlaneGroupProperties {
+    vector<ClippingPlaneGroupPlane> planes;
+    bool isClippingEnabled;
+    ClippingPlaneGroupBackfaceCullPolicy backfaceCullPolicy;
+    bool isSurfaceTagsEnabled;
+    set<string> surfaceTags;
+};
+
+enum ClippingPlaneGroupBackfaceCullPolicy {
+    never,
+    always,
+    surface
+};
+
+struct ClippingPlaneGroupPlane {
+    bool enabled;
+    bool invertNormalDirection;
+    ClippingPlaneGroupVisualization visualisation;
+    ClippingPlaneGroupSlice slice;
+    Transform transform;
+};
+
+struct ClippingPlaneGroupSlice {
+    bool enabled = true;
+    Vector color = {1.0, 0.0, 0.0};
+    float thickness = 0.005;
+};
+
+struct ClippingPlaneGroupVisualization {
+    bool planeEnabled;
+    float planeWidth = 1.0;
+    float planeHeight = 1.0;
+    float planeAlpha = 0.1;
+    Vector planeColor = {1.0, 0.0, 0.0};
+    bool gridEnabled;
+    float gridStep = 0.1;
+    Vector gridColor = {1.0, 0.0, 0.0};
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<ClippingPlaneGroup, ClippingPlaneGroupProperties> properties;
+
+};

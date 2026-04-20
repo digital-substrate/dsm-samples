@@ -1,0 +1,82 @@
+"""This pool provides access to functions used to edit the graph topology."""
+attachment_function_pool ModelGraph {9bdcbb5b-76e9-426f-b8a6-a10ed2d949e6} {
+
+"""Append a new comment."""
+mutable void appendGraphComment(key<Graph> graphKey, string comment);
+
+"""Clear the graph."""
+mutable void clearGraph(key<Graph> graphKey);
+
+"""Delete a vertex without deleting connected edges."""
+mutable void deleteSelectionBugged(key<Graph> graphKey);
+
+"""Throw an error while creating a graph."""
+mutable void graphWithError(key<Graph> graphKey);
+
+"""Create a graph with missing vertices to illustrate graph integrity."""
+mutable void graphWithMissingVertex(key<Graph> graphKey);
+
+"""Create a graph with missing vertex property to illustrate graph integrity."""
+mutable void graphWithMissingVertexProperties(key<Graph> graphKey);
+
+"""Insert a new comment at a specific xarray position (not an index)."""
+mutable void insertGraphComment(key<Graph> graphKey, uuid position, string comment);
+
+"""Create mutations that destroy the usability of the Commit."""
+mutable void killer(key<Graph> graphKey, uint64 vertexCount);
+
+"""Move the vertices by the offset."""
+mutable void moveVertices(set<key<Vertex>> vertexKeys, Position offset);
+
+"""Create a new edge."""
+mutable key<Edge> newEdge(key<Graph> graphKey, key<Vertex> vaKey, key<Vertex> vbKey);
+
+"""Create a vertex with the specified attributes."""
+mutable key<Vertex> newVertex(key<Graph> graphKey, int64 value, Position position);
+
+"""Append a random comment."""
+mutable void randomComment(key<Graph> graphKey);
+
+"""Create a random edge or raise if the graph is complete."""
+mutable key<Edge> randomEdge(key<Graph> graphKey);
+
+"""Create a new random graph in rect."""
+mutable void randomGraph(key<Graph> graphKey, uint64 vertexCount, uint64 edgeCount, Rectangle rect);
+
+"""Insert a new random tag."""
+mutable void randomTag(key<Graph> graphKey);
+
+"""Create a random vertex."""
+mutable key<Vertex> randomVertex(key<Graph> graphKey, Rectangle rect);
+
+"""Remove a comment at a specific xarray position (not an index)."""
+mutable void removeGraphComment(key<Graph> graphKey, uuid position);
+
+"""Set the label of the graph description."""
+mutable void setGraphLabel(key<Graph> graphKey, string label);
+
+"""Replace or insert the tag."""
+mutable void setGraphTag(key<Graph> graphKey, string key, string value);
+
+"""Set the vertex color."""
+mutable void setVertexColor(key<Vertex> vertexKey, Color color);
+
+"""Set the vertex position."""
+mutable void setVertexPosition(key<Vertex> vertexKey, Position position);
+
+"""Set the vertex value."""
+mutable void setVertexValue(key<Vertex> vertexKey, int64 value);
+
+"""Remove the tag."""
+mutable void unsetGraphTags(key<Graph> graphKey, set<string> keys);
+
+"""Update the comment at a specific xarray position (not an index)."""
+mutable void updateGraphComment(key<Graph> graphKey, uuid position, string comment);
+
+"""Update a tag."""
+mutable void updateGraphTag(key<Graph> graphKey, string key, string value);
+
+"""Test no args."""
+mutable void noArgs();
+
+};

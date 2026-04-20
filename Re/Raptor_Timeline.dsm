@@ -1,0 +1,286 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Timeline;
+struct TimelineProperties {
+    string name = "Timeline";
+    float timeStart;
+    float timeEnd;
+    vector<TimelineTrack> tracks;
+};
+
+club TimelineAnimation;
+membership TimelineAnimation Timeline;
+membership TimelineAnimation TimelineClipCameraBezierPath;
+membership TimelineAnimation TimelineClipCameraBookmark;
+membership TimelineAnimation TimelineClipCameraKamFile;
+membership TimelineAnimation TimelineClipChannelBaked;
+membership TimelineAnimation TimelineClipChannelCurve;
+membership TimelineAnimation TimelineClipChannelSimple;
+membership TimelineAnimation TimelineClipConfiguration;
+membership TimelineAnimation TimelineClipProduct;
+membership TimelineAnimation TimelineClipVideo;
+
+concept TimelineClip;
+
+concept TimelineClipCameraBezierPath is a TimelineClip;
+struct TimelineClipCameraBezierPathProperties {
+    string name = "TimelineClipCameraBezierPath";
+    float duration;
+    TimelineClipCameraBezierPathPosition positionType = .fixed;
+    TimelineClipCameraBezierPathDirection directionType = .fixedDirection;
+    optional<key<BezierPath>> bezierPathUsedForPositionKey;
+    optional<key<BezierPath>> bezierPathUsedForDirectionKey;
+    bool invertBezierPathUsedForPosition;
+    bool invertBezierPathUsedForDirection;
+    optional<key<KinematicsNodeNull>> nullUsedForPositionKey;
+    optional<key<KinematicsNodeNull>> nullUsedForDirectionKey;
+    Vector fixedPositionFrom = {1.0, 1.0, 1.0};
+    Vector fixedPositionTo;
+    Vector fixedDirection = {0.0, 0.0, 1.0};
+    Vector fixedDirectionUp = {0.0, 1.0, 0.0};
+    Vector fixedTargetPosition;
+};
+enum TimelineClipCameraBezierPathDirection {
+    followBezierPath,
+    followBezierPathPosition,
+    fixedDirection,
+    fixedPosition,
+    followNull
+};
+
+enum TimelineClipCameraBezierPathPosition {
+    followBezierPath,
+    fixed,
+    followNull
+};
+
+concept TimelineClipCameraBookmark is a TimelineClip;
+struct TimelineClipCameraBookmarkProperties {
+    string name = "TimelineClip";
+    float duration;
+    float fps;
+    float sleepAddCst;
+    float sleepMulCst;
+    float durationAddCst;
+    float durationMulCst;
+    bool closedPath;
+    vector<TimelineClipCameraBookmarkBookmark> bookmarks;
+};
+
+struct TimelineClipCameraBookmarkBookmark {
+    string name = "Bookmark";
+    bool enabled;
+    TimelineClipCameraProperties cameraProperties;
+    TimelineClipCameraBookmarkTransition transition = .linear;
+    float transitionSleep;
+    float transitionSmoothness;
+    float transitionDuration = 1.0;
+    float transitionTurn = 1.0;
+    float transitionTurnDuration = 1.0;
+};
+
+enum TimelineClipCameraBookmarkTransition {
+    linear,
+    jump,
+    orbit,
+    head,
+    spline
+};
+
+struct TimelineClipCameraFieldOfView {
+    CameraFovType fovType;
+    float fov = 0.7853981634;
+};
+
+concept TimelineClipCameraKamFile is a TimelineClip;
+struct TimelineClipCameraKamFileProperties {
+    string name = "TimelineClip";
+    float duration;
+    key<TimelineKamFile> kamFileKey;
+};
+
+struct TimelineClipCameraProperties {
+    TimelineClipCameraFieldOfView fieldOfView;
+    PointOfView pointOfView;
+};
+
+concept TimelineClipChannelBaked is a TimelineClip;
+struct TimelineClipChannelBakedProperties {
+   string name = "TimelineClip";
+   float duration;
+   blob_id blob_transforms;
+
+   uuid target;
+   uuid subTarget;
+   uuid elementType;
+   uuid element;
+};
+
+concept TimelineClipChannelCurve is a TimelineClip;
+struct TimelineClipChannelCurveProperties {
+    string name = "TimelineClip";
+    float duration;
+    vector<TimelineClipChannelCurveChannel> channels;
+};
+
+
+struct TimelineClipChannelCurveChannel {
+    Vector color;
+    vector<TimelineClipChannelCurveKeyframe> keyframes;
+
+    uuid target;
+    uuid subTarget;
+    uuid elementType;
+    uuid element;
+};
+
+struct TimelineClipChannelCurveKeyframe {
+    float time;
+    float value;
+    Vector leftTangent;
+    Vector rightTangent;
+    TimelineClipChannelCurveTangent rightTangentType = .linear;
+};
+
+enum TimelineClipChannelCurveTangent {
+    bezier,
+    linear,
+    step
+};
+
+concept TimelineClipChannelSimple is a TimelineClip;
+struct TimelineClipChannelSimpleProperties {
+    string name = "TimelineClip";
+    float duration;
+    float valueStart;
+    float valueEnd;
+    TimelineClipChannelSimpleEasing easing = .linear;
+
+    uuid target;
+    uuid subTarget;
+    uuid elementType;
+    uuid element;
+};
+
+enum TimelineClipChannelSimpleEasing {
+    linear,
+    inQuad,
+    outQuad,
+    inOutQuad
+};
+
+concept TimelineClipConfiguration is a TimelineClip;
+struct TimelineClipConfigurationProperties {
+    string name = "TimelineClip";
+    vector<TimelineClipConfigurationParameter> parameters;
+};
+
+
+struct TimelineClipConfigurationParameter {
+    string name = "TimelineClipConfigurationParameter";
+    string value;
+    bool isBinary;
+};
+
+concept TimelineClipProduct is a TimelineClip ;
+struct TimelineClipProductProperties {
+    string name = "TimelineClip";
+    key<Product> productKey;
+};
+attachment<TimelineClipProduct, TimelineClipProductProperties> properties;
+
+concept TimelineClipVideo is a TimelineClip;
+struct TimelineClipVideoProperties {
+    string name = "TimelineClip";
+    float duration;
+    key<Video> videoKey;
+};
+
+concept TimelineData;
+struct TimelineDataProperties {
+    vector<key<Timeline>> timelineKeys;
+    vector<key<TimelineClip>> clipKeys;
+    vector<key<TimelineTrigger>> triggerKeys;
+};
+
+concept TimelineKamFile;
+struct TimelineKamFileProperties {
+    float fps = 30.0;
+    bool ignoreFov;
+    bool swapFov;
+    blob_id blob_frames;
+};
+
+enum TimelineLoopType {
+    none,
+    repeated,
+    incremented
+};
+
+enum TimelineTrackType {
+    product,
+    configuration,
+    camera,
+    channels,
+    video
+};
+
+struct TimelineTrack {
+    TimelineTrackType trackType = .channels;
+    vector<TimelineTrackEntry> entries;
+};
+
+struct TimelineTrackEntry {
+    key<TimelineClip> clipKey;
+    bool isReversed;
+    TimelineLoopType loopType;
+    float time;
+};
+
+concept TimelineTrigger;
+
+struct TimelineTriggerAnimation {
+    TimelineTriggerPlayMode playMode;
+    key<TimelineAnimation> animationKey;
+};
+
+concept TimelineTriggerKey is a TimelineTrigger;
+struct TimelineTriggerKeyProperties {
+    int64 key;
+    vector<TimelineTriggerAnimation> animations;
+};
+
+enum TimelineTriggerPlayMode {
+    continued,
+    reset,
+    invertWithPause,
+    invertWithoutPause
+};
+
+concept TimelineTriggerSurface is a TimelineTrigger;
+struct TimelineTriggerSurfaceProperties {
+    key<Surface> surfaceKey;
+    vector<TimelineTriggerAnimation> animations;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Timeline, TimelineProperties> properties;
+attachment<TimelineClipCameraBezierPath, TimelineClipCameraBezierPathProperties> properties;
+attachment<TimelineClipCameraBookmark, TimelineClipCameraBookmarkProperties> properties;
+attachment<TimelineClipCameraKamFile, TimelineClipCameraKamFileProperties> properties;
+attachment<TimelineClipChannelBaked, TimelineClipChannelBakedProperties> properties;
+attachment<TimelineClipChannelCurve, TimelineClipChannelCurveProperties> properties;
+attachment<TimelineClipChannelSimple, TimelineClipChannelSimpleProperties> properties;
+attachment<TimelineClipConfiguration, TimelineClipConfigurationProperties> properties;
+attachment<TimelineClipVideo, TimelineClipVideoProperties> properties;
+attachment<TimelineData, TimelineDataProperties> properties;
+attachment<TimelineKamFile, TimelineKamFileProperties> properties;
+attachment<TimelineTriggerKey, TimelineTriggerKeyProperties> properties;
+attachment<TimelineTriggerSurface, TimelineTriggerSurfaceProperties> properties;
+
+};

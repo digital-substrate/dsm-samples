@@ -1,0 +1,34 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Surface;
+struct SurfaceProperties {
+    string name = "Surface";
+    map<key<LightingLayer>, key<Texture>> lightmaps;
+    key<Mesh> meshKey;
+    Vector color = {1.0, 1.0, 1.0};
+    set<string> tags;
+    SurfaceBillboardMode billboardMode;
+    optional<key<MeshAnimation>> meshAnimationKey;
+    SurfaceMirrorPlane mirrorPlane;
+};
+
+enum SurfaceBillboardMode {
+    none,
+    rotateY,
+    rotateXy
+};
+
+struct SurfaceMirrorPlane {
+    Vector position;
+    Vector normal = {0.0, 1.0, 0.0};
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Surface, SurfaceProperties> properties;
+
+};

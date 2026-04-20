@@ -1,0 +1,73 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Camera;
+
+struct CameraProperties {
+    string name = "Camera";
+    PointOfView pointOfView;
+    CameraOpticalProperties opticalProperties;
+    optional<key<Sensor>> sensorKey;
+    bool exposedInConfiguration = true;
+};
+
+struct CameraDepthOfField {
+    bool enabled;
+    float aperture;
+    int32 sampleCount = 32;
+};
+
+struct CameraDepthRange {
+    CameraDepthRangePolicy policy = .lookAtPointBasedInterest;
+    float zNear = 0.1;
+    float zFar = 100.0;
+};
+
+enum CameraDepthRangePolicy {
+    frustumBased,
+    fixedDepthRange,
+    lookAtPointBasedInterest,
+    useGlobalPolicy
+};
+
+enum CameraFovType {
+   x,
+   y
+};
+
+struct CameraMotionBlur {
+    bool enabled;
+    bool objectMotionBlur;
+    float simulatedFps = 24.0;
+};
+
+struct CameraOpticalProperties {
+    CameraFovType fovType = .y;
+    //float fov = 0.7853981634;
+    float fov = 0.785398;
+    CameraOrientation orientation;
+    CameraDepthOfField depthOfField;
+    CameraMotionBlur motionBlur;
+    CameraDepthRange depthRange;
+};
+
+enum CameraOrientation {
+    landscape,
+    portrait
+};
+
+struct LensShiftProperties {
+    float lensShiftX;
+    float lensShiftY;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Camera, CameraProperties> properties;
+attachment<Camera, LensShiftProperties> lensShiftProperties;
+
+};
+

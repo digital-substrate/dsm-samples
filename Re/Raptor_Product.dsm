@@ -1,0 +1,74 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Product;
+struct ProductProperties {
+    string name = "Product";
+    optional<key<Thumbnail>> thumbnailKey;
+    key<Model> modelKey;
+    vector<key<AspectLayer>> aspectLayerKeys;
+    bool materialsHideLabelsBelow;
+    map<key<Surface>, SurfaceRenderProperties> surfaceRenderProperties;
+    vector<key<EnvironmentLayer>> environmentLayerKeys;
+    map<key<Environment>, EnvironmentRenderProperties> environmentRenderProperties;
+    map<string,set<string>> configurationBookmarks;
+    set<string> configurationDefines;
+    bool ignoreBackfaceCull;
+    bool environmentLinkedToDiffuse = true;
+    SunAuthoringProperties sunAuthoring;
+    SSAOProperties ssao;
+};
+
+enum BackfaceCullMode {
+    show,
+    default,
+    hide
+};
+
+struct SurfaceRenderProperties {
+    bool isHidden;
+    BackfaceCullMode backfaceCullMode = .default;
+    bool transparencyDepthWrite;
+};
+
+struct MaterialAssignment {
+    key<Material> materialKey;
+    Transform transform;
+    int8 uvSet;
+    Plane mirrorPlane;
+};
+
+struct LabelAssignment {
+    string name = "LabelAssignment";
+    bool enabled = true;
+    MaterialAssignment materialAssignment;
+};
+
+concept AspectLayer;
+struct AspectLayerProperties {
+    string name = "AspectLayer";
+    bool enabled;
+    map<key<Surface>, MaterialAssignment> materialAssignments;
+    map<key<Surface>, vector<LabelAssignment>> labelAssignments;
+};
+
+struct SSAOProperties {
+    bool enabled;
+    bool lightmaps = true;
+    bool transparentSurfaces;
+    float radius = 0.05;
+    float intensity = 1.0;
+    float bias = 8.0;
+    uint16 steps = 4;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Product, ProductProperties> properties;
+attachment<AspectLayer, AspectLayerProperties> properties;
+
+};
+

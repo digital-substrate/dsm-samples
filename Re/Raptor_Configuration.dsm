@@ -1,0 +1,59 @@
+
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+struct ConfigurationExpressionProperties {
+    ConfigurationExpressionOperationType operationType;
+    optional<key<ConfigurationExpression>> leftExpressionKey;
+    optional<key<ConfigurationExpression>> rightExpressionKey;
+    string symbol;
+};
+
+concept ConfigurationExpression;
+
+enum ConfigurationExpressionOperationType {
+    defined,
+    and,
+    or,
+    xor,
+    not
+};
+
+club ConfigurationTargetSource;
+membership ConfigurationTargetSource Model;
+membership ConfigurationTargetSource Product;
+membership ConfigurationTargetSource Overlay;
+
+club ConfigurationTargetElement;
+membership ConfigurationTargetElement GeometryLayer;
+membership ConfigurationTargetElement AspectLayer;
+membership ConfigurationTargetElement PositionLayer;
+membership ConfigurationTargetElement EnvironmentLayer;
+membership ConfigurationTargetElement LightingLayer;
+membership ConfigurationTargetElement LightingLayerColorLayer;
+membership ConfigurationTargetElement OverlayLayer;
+
+struct ConfigurationTarget {
+    string name = "ConfigurationTarget";
+    bool enabled;
+    key<ConfigurationTargetSource> sourceKey;
+    key<ConfigurationTargetElement> elementKey;
+};
+
+concept ConfigurationRule;
+struct ConfigurationRuleProperties {
+    string name = "ConfigurationRule";
+    bool enabled = true;
+    key<ConfigurationExpression> expressionKey;
+    vector<ConfigurationTarget> targets;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<ConfigurationExpression, ConfigurationExpressionProperties> properties;
+attachment<ConfigurationRule, ConfigurationRuleProperties> properties;
+
+};

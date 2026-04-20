@@ -1,0 +1,31 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept BezierPath;
+
+struct BezierPathProperties {
+    string name = "BezierPath";
+    Vector color = {1.0, 1.0, 1.0};
+    float startAbscissa;
+    bool invertEvaluationDirection;
+    bool isClosed;
+    vector<BezierPathVertex> vertices;
+};
+
+struct BezierPathVertex {
+    Vector point;
+    Vector leftTangent;
+    Vector rightTangent;
+    bool areTangentLinkedToPoint;
+    bool areTangentLinked;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<BezierPath, BezierPathProperties> properties;
+
+};
+

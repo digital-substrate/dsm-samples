@@ -1,0 +1,149 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept IraySettings;
+struct  IraySettingsProperties {
+    float maxQuality = 0.99;
+    uint32 maxSamples = 512;
+    float maxRenderTime = 3600.0; //In seconds
+    uint32 maxPathLength = 12;
+    float environmentExposure = 1.0;
+    bool causticSampler;
+    bool architecturalSampler;
+    bool environmentMaterialEnabled;
+    bool environmentMaterialUseAlternative;
+    bool environmentBackgroundMode = true;
+    IrayGround ground;
+    IrayTonemapper tonemapper;
+    IrayCameraEffects cameraEffects;
+    bool firefliesFilteringEnabled;
+    IrayDegrainFiltering degrain;
+    IrayDenoiseFiltering denoise;
+    IraySunSky sunSky;
+};
+
+struct IrayGround {
+    bool enabled;
+    float altitude;
+    float shadowIntensity = 1.0;
+    float scale = 1.5;
+    float glossiness;
+    Vector reflectivity = {1.0, 1.0, 1.0};
+};
+
+struct IrayTonemapper {
+    bool enabled = true;
+    IrayTonemappingMode mode;
+    float burn = 0.2;
+    float crush = 0.25;
+    float ev = 7.0;
+    float shutter = 0.125;
+    float fNumber = 8.0;
+    float filmIso = 100.0;
+    float cm2Factor = 10.0;
+    float saturation = 1.0;
+    Vector whitePoint = {1.04287, 0.983863, 1.03358};
+};
+
+enum IrayTonemappingMode {
+    standard,
+    photographic
+};
+
+struct IrayCameraEffects {
+    bool bloomEnabled;
+    float bloomRadius = 0.01;
+    float bloomThreshold = 0.9;
+    float bloomBrightnessScale = 1.0;
+    float vignetting;
+};
+
+struct IrayDegrainFiltering {
+    bool enabled;
+    IrayDegrainMode mode;
+    int32 radius = 3;
+    float blurDifference = 0.05;
+};
+
+enum IrayDegrainMode {
+    pixelClipping,
+    smartMedian,
+    smartAverage,
+    limitedBlur,
+    limitedAutoBlur
+};
+
+struct IrayDenoiseFiltering {
+    bool enabled;
+    uint32 minIterations = 8;
+    uint32 maxMemory = 2048; //In MB
+    bool denoiseAlpha;
+};
+
+struct IraySunSky {
+    bool enabled;
+    float multiplier = 0.09;
+    Vector rgbUnitConversion = {0.000666667, 0.000666667, 0.000666667};
+    float haze = 0.5;
+    float redblueShift;
+    float saturation = 0.5;
+    float horizonHeight = 0.001;
+    float horizonBlur = 0.1;
+    Vector groundColor = {0.4, 0.4, 0.4};
+    Vector nightColor;
+    float sunDiskIntensity = 0.01;
+    float sunDiskScale = 0.5;
+    float sunGlowIntensity = 1.0;
+    bool physicallyScaledSun = true;
+};
+
+struct IrayLight {
+    float intensity = 1.0;
+    float exponent = 1.0;
+    bool useAsPortal;
+    bool useRadiantExitance;
+};
+
+concept IrayMaterial;
+struct IrayMaterialSettings {
+    key<IrayMaterial> materialKey;
+};
+
+concept IrayMdlMaterial is a IrayMaterial;
+struct IrayMdlMaterialProperties {
+    string name = "MdlMaterial";
+    blob_id mdlData;
+};
+
+concept IrayAxfMaterial is a IrayMaterial;
+struct IrayAxfMaterialProperties {
+    blob_id axfData;
+};
+
+concept IrayStdMaterial is a IrayMaterial;
+struct IrayStdMaterialProperties {
+    float shadowIntensity;
+};
+
+concept IrayMatteMaterial is a IrayMaterial;
+struct IrayMatteMaterialProperties {
+    float shadowIntensity;
+    Vector color;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<IraySettings, IraySettingsProperties> properties;
+
+attachment<Light, IrayLight> iraySettings;
+attachment<Material,IrayMaterialSettings> iraySettings;
+
+attachment<IrayMdlMaterial, IrayMdlMaterialProperties> properties;
+attachment<IrayAxfMaterial, IrayAxfMaterialProperties> properties;
+attachment<IrayStdMaterial, IrayStdMaterialProperties> properties;
+attachment<IrayMatteMaterial, IrayMatteMaterialProperties> properties;
+
+};

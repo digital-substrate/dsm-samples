@@ -1,0 +1,19 @@
+"""This pool provides access to the various utility functions."""
+function_pool Tools {ac3b7779-e0bf-46f8-95a1-bcf1df164022} {
+
+"""Return a + b."""
+int64 add(int64 a, int64 b);
+
+"""Return true if a is even."""
+bool isEven(int64 a);
+
+"""Return a random color."""
+Vector randomColor();
+
+"""Return a random word."""
+string randomWord();
+
+"""Return the current user name."""
+string userName();
+
+};

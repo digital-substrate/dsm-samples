@@ -1,0 +1,144 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept LightingLayer;
+struct LightingLayerProperties {
+    string name = "LightingLayer";
+    bool enabled;
+    float exposure = 1.0;
+    float gamma = 1.0;
+    vector<key<LightingLayerColorLayer>> colorLayerKeys;
+    vector<key<Light>> lightKeys;
+};
+
+concept LightingLayerColorLayer;
+struct LightingLayerColorLayerProperties {
+    string name = "LightingLayerColorLayer";
+    bool enabled;
+    float intensity = 1.0;
+    Vector color = {1.0, 1.0, 1.0};
+};
+
+concept Light;
+struct LightProperties {
+    string name;
+    bool enabled = true;
+    Vector color = {1.0, 1.0, 1.0};
+    float intensity = 1.0;
+    Vector position = {0.0, 0.1, 0.0};
+    Vector orientation;
+};
+
+concept LightSpot is a Light;
+struct  LightSpotProperties {
+    float diameter = 0.05;
+    Vector target = {0.0, 0.0, 1.0};
+    float falloff = 45.0; //In degrees
+    float hotSpot = 43.0; //In degrees
+    LightShadow shadow;
+    LightAttenuation attenuation;
+    IESProfile iesProfile;
+};
+
+concept LightOmni is a Light;
+struct  LightOmniProperties {
+    float diameter = 0.05; //In meters
+    LightShadow shadow;
+    LightAttenuation attenuation;
+    IESProfile iesProfile;
+};
+
+concept LightSun is a Light;
+struct  LightSunProperties {
+    float diameter = 0.05; //In meters
+    LightShadow shadow;
+};
+
+concept LightSky is a Light;
+struct  LightSkyProperties {
+    float topAngle = 0.05;
+    float bottomAngle = 0.05;
+    optional<key<Environment>> environmentKey;
+    LightShadow shadow;
+};
+
+concept LightAreaPlane is a Light;
+struct  LightAreaPlaneProperties {
+    float width = 1.0; //In meters
+    float height = 1.0; //In meters
+    LightShadow shadow;
+    LightAttenuation attenuation;
+    IESProfile iesProfile;
+};
+
+concept LightAreaCylinder is a Light;
+struct  LightAreaCylinderProperties {
+    float diameter = 0.2; //In meters
+    float length = 1.0; //In meters
+    LightShadow shadow;
+    LightAttenuation attenuation;
+    IESProfile iesProfile;
+};
+
+concept LightAreaMesh is a Light;
+struct  LightAreaMeshProperties {
+    key<Surface> surfaceKey;
+    LightShadow shadow;
+    LightAttenuation attenuation;
+    IESProfile iesProfile;
+};
+
+struct LightShadow {
+    bool cast = true;
+    float intensity = 0.1;
+    ShadowIntegrity integrity = .normal;
+};
+
+struct LightAttenuation {
+    LightAttenuationType attenuationType = .physical;
+    bool bounded;
+    float fullEffect = 2.0;
+    float falloff = 2.1;
+};
+
+struct IESProfile {
+    bool enabled;
+    blob_id data;
+    Vector orientation = {-90.0, 0.0, 0.0}; //In degrees
+};
+
+enum ShadowIntegrity {
+    weak,
+    normal,
+    fine,
+    ultraFine,
+    max
+};
+
+enum LightAttenuationType {
+    none,
+    linearSlow,
+    linearFast,
+    quadraticSlow,
+    quadraticFast,
+    physical
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<LightingLayer, LightingLayerProperties> properties;
+attachment<LightingLayerColorLayer, LightingLayerColorLayerProperties> properties;
+
+attachment<Light, LightProperties> properties;
+attachment<LightSpot, LightSpotProperties> properties;
+attachment<LightOmni, LightOmniProperties> properties;
+attachment<LightSun, LightSunProperties> properties;
+attachment<LightSky, LightSkyProperties> properties;
+attachment<LightAreaPlane, LightAreaPlaneProperties> properties;
+attachment<LightAreaCylinder, LightAreaCylinderProperties> properties;
+attachment<LightAreaMesh, LightAreaMeshProperties> properties;
+
+};

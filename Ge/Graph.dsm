@@ -1,0 +1,103 @@
+// Types definitions
+namespace Graph {27c49329-a399-415c-baf0-db42949d2ba2} {
+
+"""A graph."""
+concept Graph;
+
+"""A vertex in a graph."""
+concept Vertex;
+
+"""An edge in a graph."""
+concept Edge;
+
+"""The selected vertices and edges."""
+struct GraphSelection {
+    set<key<Vertex>> vertexKeys;
+    set<key<Edge>> edgeKeys;
+};
+
+"""An edge in the graph topology."""
+struct EdgeTopology {
+    key<Vertex> vaKey;
+    key<Vertex> vbKey;
+};
+
+"""The vertices and edges of the graph topology."""
+struct GraphTopology {
+    set<key<Vertex>> vertexKeys;
+    set<key<Edge>> edgeKeys;
+};
+
+"""A Rectangle."""
+struct Rectangle {
+    """the x origin."""
+    float x;
+    """the y origin."""
+    float y;
+    """the width."""
+    float w;
+    """the height."""
+    float h;
+};
+
+"""The descriptive information."""
+struct GraphDescription {
+    string name;
+    string author;
+    string createDate;
+};
+
+"""A Position."""
+struct Position {
+    float x;
+    float y;
+};
+
+"""The attributes used to render a topological vertex in 2D."""
+struct Vertex2DAttributes {
+    Position position;
+};
+
+"""An RGB Color."""
+struct Color {
+    float red;
+    float green;
+    float blue;
+};
+
+"""The visual attributes of a vertex."""
+struct VertexVisualAttributes {
+    int64 value;
+    Color color;
+};
+
+};
+
+// Attachments definitions
+namespace Graph {27c49329-a399-415c-baf0-db42949d2ba2} {
+"""The topology of a graph."""
+attachment<Graph, GraphTopology> topology;
+
+"""A collection of tags for a graph."""
+attachment<Graph, map<string, string>> tags;
+
+"""A collection of comments for a Graph."""
+attachment<Graph, xarray<string>> comments;
+
+"""The selected vertices of a graph."""
+attachment<Graph, GraphSelection> selection;
+
+"""The descriptive information of a graph."""
+attachment<Graph, GraphDescription> description;
+
+"""The render attributes used to render a vertex of a graph in 2D."""
+attachment<Vertex, Vertex2DAttributes> render2DAttributes;
+
+"""The visual attributes used to render a vertex of a graph."""
+attachment<Vertex, VertexVisualAttributes> visualAttributes;
+
+"""An Edge in the graph topology."""
+attachment<Edge, EdgeTopology> topology;
+
+};
+

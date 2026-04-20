@@ -1,0 +1,32 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+struct Vector {
+    float x;
+    float y;
+    float z;
+};
+
+struct Aabb {
+    Vector min;
+    Vector max;
+};
+
+struct Transform {
+    Vector translation;
+    Vector orientation;
+    Vector scaling = {1.0, 1.0, 1.0};
+};
+
+struct Plane {
+    Vector normal;
+    float q;
+};
+
+struct PointOfView {
+    Vector target;
+    Vector eye = {2.0, 2.0, 2.0};
+    Vector up = {0.0, 1.0, 0.0};
+};
+
+};

@@ -1,0 +1,40 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Model;
+struct ModelProperties {
+    string name = "Model";
+    vector<key<LightingLayer>> lightingLayerKeys;
+    key<GeometryLayer> rootGeometryLayerKey;
+    key<Kinematics> kinematicsKey;
+    vector<key<PositionLayer>> positionLayerKeys;
+    vector<key<BezierPath>> bezierPathKeys;
+};
+
+concept GeometryLayer;
+struct GeometryLayerProperties {
+    string name = "GeometryLayer";
+    bool enabled = true;
+    vector<key<GeometryLayer>> childrenKeys;
+    vector<key<Surface>> surfaceKeys;
+};
+
+concept PositionLayer;
+struct PositionLayerProperties {
+    string name = "PositionLayer";
+    bool enabled;
+    map<key<KinematicsElement>, Transform> localToPivot;
+    map<key<KinematicsElement>, Transform> pivotToParent;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Model, ModelProperties> properties;
+attachment<GeometryLayer, GeometryLayerProperties> properties;
+attachment<PositionLayer, PositionLayerProperties> properties;
+
+};
+

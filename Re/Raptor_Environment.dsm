@@ -1,0 +1,160 @@
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Environment;
+struct EnvironmentProperties {
+    string name = "Environment";
+    optional<key<Thumbnail>> thumbnailKey;
+    optional<key<EnvironmentGenerator>> generatorKey;
+    float gamma = 1.0;
+    float saturation;
+    float diffuseExposure;
+    float diffuseColoration;
+    float specularExposure;
+    float backgroundExposure;
+    float backgroundGamma = 1.0;
+    Vector position;
+    Transform defaultTransform;
+    EnvironmentParallaxCorrection parallaxCorrection;
+    key<TextureCube> diffuseCubeKey;
+    vector<key<TextureCube>> specularCubeKeys;
+    optional<key<Texture>> backgroundTextureKey;
+    vector<EnvironmentLight> environmentLights;
+};
+
+concept EnvironmentGenerator;
+
+concept EnvironmentGeneratorHdrls is a EnvironmentGenerator;
+struct EnvironmentGeneratorHdrlsProperties {
+    bool immediateDataProcessing;
+    int32 width;
+    int32 height;
+    blob_id data;
+};
+
+concept EnvironmentGeneratorLocal is a EnvironmentGenerator;
+struct EnvironmentGeneratorLocalProperties {
+    key<Product> productKey;
+    float radius = 1.0;
+    int32 resolution;
+    set<string> surfaceTags;
+    bool rebuildOnConfig;
+};
+
+concept EnvironmentLayer;
+struct EnvironmentLayerProperties {
+    string name = "EnvironmentLayer";
+    bool enabled = true;
+    map<key<Surface>, key<Environment>> environmentAssignments;
+    map<key<Surface>, Transform> orientationAssignments;
+};
+
+struct EnvironmentLight {
+    Vector direction;
+    Vector color;
+    float size;
+};
+
+struct EnvironmentParallaxCorrection {
+    EnvironmentParallaxType parallaxType;
+    Aabb aabb;
+    Vector hemisphereCenter;
+    float hemisphereRadius = 1.0;
+    optional<key<Surface>> surfaceKey;
+};
+
+enum EnvironmentParallaxType {
+    none,
+    aabb,
+    hemisphere,
+    mesh
+};
+
+struct EnvironmentRenderProperties {
+    bool hasEnvironmentOrientation;
+    Vector environmentOrientation;
+    bool hasSunPosition;
+    Vector sunPosition;
+    bool overrideSun;
+    EnvironmentSunProperties sunProperties;
+};
+
+struct EnvironmentSunProperties {
+    bool enabled;
+    Vector color;
+    float intensity = 1.0;
+    float shadowIntensity = 0.1;
+    bool isSpecularEnabled;
+    float specularIntensity;
+    float lightmapIntensity;
+};
+
+struct SunAuthoringProperties {
+    bool enabled;
+    bool enabledShadowsInMirrors;
+    Vector color = {1.0, 1.0, 1.0};
+    float intensity = 1.0;
+    float shadowIntensity;
+    float lightmapIntensity = 1.0;
+    SunShadowQuality shadowQuality;
+    SunShadowSmoothness shadowSmoothness;
+    bool isSpecularEnabled = true;
+    float specularIntensity = 1.0;
+    float northOrientation;
+    SunOrientationType orientationType;
+    SunAuthoringManualOrientation manualOrientation;
+    SunAuthoringTimeAndLocationOrientation timeAndLocationOrientation;
+};
+
+struct SunAuthoringManualOrientation {
+    float azimuth;
+    float altitude = 30.0;
+};
+
+struct SunAuthoringTimeAndLocationOrientation {
+    int32 year = 2000;
+    uint8 month = 1;
+    uint8 day = 1;
+    uint8 hour = 12;
+    uint8 minute;
+    uint8 second;
+    float timezone = 1.0;
+    bool daylightSaving = true;
+    int32 daylightSavingMinutes = 60;
+    float latitude = 44.8386;
+    float longitude = 0.5783;
+};
+
+enum SunShadowQuality {
+    veryLow,
+    low,
+    medium,
+    fine,
+    ultra
+};
+
+enum SunShadowSmoothness {
+    none,
+    weak,
+    normal,
+    fine,
+    ultraFine,
+    max
+};
+
+enum SunOrientationType {
+    manual,
+    timeAndLocation,
+    extractedFromEnvironment
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Environment, EnvironmentProperties> properties;
+attachment<EnvironmentGeneratorHdrls, EnvironmentGeneratorHdrlsProperties> properties;
+attachment<EnvironmentGeneratorLocal, EnvironmentGeneratorLocalProperties> properties;
+attachment<EnvironmentLayer, EnvironmentLayerProperties> properties;
+
+};

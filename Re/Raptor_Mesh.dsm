@@ -1,0 +1,50 @@
+// Types
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+concept Mesh;
+struct MeshProperties {
+    Aabb aabb;
+    int32 triangleCount;
+    int32 vertexCount;
+    blob_id blob_indices;
+    blob_id blob_positions;
+    blob_id blob_normals;
+    blob_id blob_tangents;
+    blob_id blob_binormals;
+    blob_id blob_lightmapUvs;
+    map<int8,blob_id> blob_uvs;
+    map<key<LightingLayer>, blob_id> blob_directions;
+    blob_id blob_animation;
+};
+
+concept MeshAnimation;
+struct MeshAnimationProperties {
+    int32 vertexCount;
+    int32 defaultFrame;
+    vector<MeshAnimationFrame> frames;
+};
+
+struct MeshAnimationFrame {
+    Aabb aabb;
+    blob_id blob_positions;
+    blob_id blob_normals;
+    blob_id blob_tangents;
+    blob_id blob_binormals;
+};
+
+concept Thumbnail;
+struct ThumbnailProperties {
+    string name = "Thumbnail";
+    vector<Mipmap> mipmaps;
+};
+
+};
+
+// Attachments
+namespace Raptor {f2d9ea90-2adc-4e9a-a2bf-02288281747d} {
+
+attachment<Mesh, MeshProperties> properties;
+attachment<MeshAnimation, MeshAnimationProperties> properties;
+attachment<Thumbnail, ThumbnailProperties> properties;
+
+};
