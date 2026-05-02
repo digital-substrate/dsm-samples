@@ -33,4 +33,4 @@ These samples can be validated using `dsm_util.py`, distributed with the Viper D
 
 ## License
 
-MIT License — see [LICENSE](LICENSE).
+This project is licensed under the MIT License — see [LICENSE](LICENSE).
