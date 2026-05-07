@@ -2,6 +2,12 @@
 
 Reference models in the **Digital Substrate Model (DSM)** language, used to demonstrate modeling patterns and exercise the [dsm-jetbrains](https://github.com/digital-substrate/dsm-jetbrains) and [dsm-vscode](https://github.com/digital-substrate/dsm-vscode) IDE plugins.
 
+## Documentation
+
+Full documentation: https://docs.digitalsubstrate.io/dsm/samples/
+
+Part of the [DevKit ecosystem](https://docs.digitalsubstrate.io/).
+
 ## Contents
 
 ### `Ge/` — Graph modeling
