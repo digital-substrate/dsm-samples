@@ -35,7 +35,7 @@ A rendering engine data model covering:
 
 ## Validation
 
-These samples can be validated using `dsm_util.py`, distributed with the Viper DevKit.
+These samples can be validated using [`dsm_util.py`](https://github.com/digital-substrate/dsviper-tools) — the semantic validator for `.dsm` files. Any DSM consumer that implements `spec/dsm-json.md` can also process them.
 
 ## License
 
