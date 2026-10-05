@@ -17,7 +17,7 @@ avatar and portrait. `Tuto/kibo.toml` generates it with kibo 2 — a Python pack
 in `Tuto/generated/`:
 
 ```sh
-python3 kibo-2/tools/kibo_project.py generate dsm-samples/Tuto/kibo.toml   # from the DevKit's root
+python3 tools/kibo_project.py generate dsm-samples/Tuto/kibo.toml   # from the DevKit's root
 ```
 
 ### `Ge/` — Graph modeling
