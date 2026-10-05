@@ -1,0 +1,20 @@
+# Generates the Tuto model with kibo 2 and kibo-template-viper 2. In the DevKit, from its root:
+#
+#   python3 kibo-2/tools/kibo_project.py generate dsm-samples/Tuto/kibo.toml
+#
+# Paths are relative to this file; the packages land in Tuto/generated/.
+
+[project]
+definitions = "."
+infrastructure = "tuto"
+
+[generator]
+templates = "2"
+
+[target.python]
+features = ["Base"]
+output = "generated/python"
+
+[target.typescript]
+features = ["Base", "Package"]
+output = "generated/typescript"

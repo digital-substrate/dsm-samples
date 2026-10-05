@@ -10,6 +10,16 @@ Part of the [DevKit ecosystem](https://docs.digitalsubstrate.io/).
 
 ## Contents
 
+### `Tuto/` — the tutorial model
+
+The model the documentation's tutorials use: a `User` with its login, identity, account,
+avatar and portrait. `Tuto/kibo.toml` generates it with kibo 2 — a Python package and a TypeScript package
+in `Tuto/generated/`:
+
+```sh
+python3 kibo-2/tools/kibo_project.py generate dsm-samples/Tuto/kibo.toml   # from the DevKit's root
+```
+
 ### `Ge/` — Graph modeling
 
 A complete graph topology system demonstrating:
