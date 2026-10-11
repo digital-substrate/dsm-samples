@@ -18,3 +18,6 @@ output = "generated/python"
 [target.typescript]
 features = ["Base", "Package"]
 output = "generated/typescript"
+# Checking the generated code needs tsc, which the DevKit does not ship; with TypeScript
+# installed, remove this line to have kibo-project run tsc --noEmit on the output.
+validate = false
